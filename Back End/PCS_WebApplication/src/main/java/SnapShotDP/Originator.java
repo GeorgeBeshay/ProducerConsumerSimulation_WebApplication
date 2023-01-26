@@ -31,4 +31,13 @@ public class Originator {
 	public void getColorFromMemento(Memento memento) {
 		color = memento.getColor();
 	}
+	
+	public Memento saveAllToMemento(Memento mement) {
+		return new Memento(time,color);
+	}
+	
+	public void getAllFromMemento(Memento memento) {
+		time = memento.getTime();
+		color = memento.getColor();
+	}
 }
