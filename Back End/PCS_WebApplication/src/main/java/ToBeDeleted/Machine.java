@@ -10,6 +10,8 @@ public class Machine implements Runnable{
 	private BlockingQueue<Product> outputQueue;
 	private BlockingQueue<Product> inputQueue;
 	private int id;
+	private boolean flag = true;
+	
 	
 	public Machine(int id, long buildingTimeSeconds, BlockingQueue<Product> outputQueue, BlockingQueue<Product> inputQueue) {
 		this.id = id;
@@ -18,29 +20,51 @@ public class Machine implements Runnable{
 		this.inputQueue = inputQueue;
 	}
 	
-	public synchronized void operate() {
-		while(!this.inputQueue.isEmpty()) {
-//			System.out.println(this.inputQueue.toString());
+	public void stop() {
+		this.flag = false;
+	}
+	
+	public  void operate() {
+		while(this.flag) {
 			this.inputProduct();
 			while(this.remainingTime > 0) {
 				try {
 					Thread.sleep(1000);
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				this.remainingTime -= 1000;
 				System.out.println("M" + this.id + ": " + "Remaining Time: " + this.remainingTime + " On " + this.productUnderConstruction.toString());
-				System.out.println("M" + this.id + ": " + "Input Queue: " + this.inputQueue.toString());
-				System.out.println("M" + this.id + ": " + "Output Queue: "+ this.outputQueue.toString());
 			}
-			this.outputProduct();
+			if(this.productUnderConstruction != null) {
+				this.outputProduct();
+	//			System.out.println("M" + this.id + ": " + "Stopped Execution");
+				System.out.println(this.inputQueue.toString());
+				System.out.println(this.outputQueue.toString());
+				System.out.println(this.flag);
+			}
 		}
 			System.out.println("M" + this.id + ": " + "Stopped Execution");
-			System.out.println(this.inputQueue.toString());
-			System.out.println(this.outputQueue.toString());
+//			System.out.println(this.inputQueue.toString());
+//			System.out.println(this.outputQueue.toString());
 	}
 	
+	public Product getProductUnderConstruction() {
+		return productUnderConstruction;
+	}
+
+	public void setProductUnderConstruction(Product productUnderConstruction) {
+		this.productUnderConstruction = productUnderConstruction;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	public void outputProduct() {
 		try {
 			this.outputQueue.put(productUnderConstruction);
@@ -52,13 +76,24 @@ public class Machine implements Runnable{
 	}
 	
 	public void inputProduct() {
-		try {
-			this.productUnderConstruction = this.inputQueue.take();
-			this.remainingTime = this.buildingTime;
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
+//		while(this.inputQueue.size() == 0) {
+//			try {
+//				Thread.sleep(1000);
+//			} catch (InterruptedException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//		}
+		
+			try {
+				while(this.flag && this.productUnderConstruction == null) 
+					this.productUnderConstruction = this.inputQueue.poll(1000, TimeUnit.MILLISECONDS);
+				if(this.productUnderConstruction != null)
+					this.remainingTime = this.buildingTime;
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 	}
 
 	@Override

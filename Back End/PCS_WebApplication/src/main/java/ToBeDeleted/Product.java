@@ -3,6 +3,7 @@ package ToBeDeleted;
 public class Product {
 	
 	int id;
+	// implement the color
 	
 	public Product(int id) {
 		this.id = id;
