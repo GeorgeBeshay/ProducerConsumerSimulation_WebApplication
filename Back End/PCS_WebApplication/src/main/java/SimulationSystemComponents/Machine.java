@@ -1,11 +1,11 @@
-package ToBeDeleted;
+package SimulationSystemComponents;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 
 
 // same as the machine class but will be implemented better.
-public class systemMachine {
+public class Machine extends Subject implements Runnable{
 	
 	// Product that is currently being assembled
 	private Product productUnderConstruction;
@@ -20,19 +20,22 @@ public class systemMachine {
 	private int id;
 	
 	// Machine Operating Status Flag
-	private boolean flag = true;
+	private boolean flag;
+	
+	// Machine Operating Status Flag
+		private boolean finished;
 	
 	// Machine Time to build a unit
 	private long buildingTime;
 	
-	// Remaining time to finish the current product
-	private long remainingTime;
-	
-	public systemMachine(int id, long buildingTimeSeconds, BlockingQueue<Product> outputQueue, BlockingQueue<Product> inputQueue) {
+	public Machine(int id, long buildingTimeSeconds, BlockingQueue<Product> outputQueue, BlockingQueue<Product> inputQueue) {
+		super();
 		this.id = id;
 		this.buildingTime = 1000 * buildingTimeSeconds;
 		this.outputQueue = outputQueue;
 		this.inputQueue = inputQueue;
+		this.flag = true;
+		this.finished = false;
 	}
 	
 	public void outputProduct() {
@@ -47,11 +50,7 @@ public class systemMachine {
 	public void inputProduct() {
 			try {
 				while(this.flag && this.productUnderConstruction == null) 
-					this.productUnderConstruction = this.inputQueue.poll(1000, TimeUnit.MILLISECONDS);
-				if(this.productUnderConstruction != null)
-					this.remainingTime = this.buildingTime;
-				else
-					this.remainingTime = 0;
+					this.productUnderConstruction = this.inputQueue.poll(100, TimeUnit.MILLISECONDS);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -60,27 +59,44 @@ public class systemMachine {
 	public  void operate() {
 		while(this.flag) {
 			this.inputProduct();
-			while(this.remainingTime > 0) {
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-				this.remainingTime -= 1000;
-				System.out.println("M" + this.id + ": " + "Remaining Time: " + this.remainingTime + " On " + this.productUnderConstruction.toString());
-			}
 			if(this.productUnderConstruction != null) {
+				System.out.println("M" + this.id + ": " + "Working On " + this.productUnderConstruction.toString());
+				this.notifyObservers();
+				try {Thread.sleep(buildingTime);} catch (InterruptedException e) {e.printStackTrace();}
 				this.outputProduct();
-				System.out.println(this.inputQueue.toString());
-				System.out.println(this.outputQueue.toString());
-				System.out.println(this.flag);
+				this.notifyObservers();
 			}
 		}
-			System.out.println("M" + this.id + ": " + "Stopped Execution");
+		System.out.println("M" + this.id + ": " + "Stopped Execution");
+		this.finished = true;
 	}
 	
 	public void stop() {
 		this.flag = false;
+		while(!this.finished) {
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 	}
+
+	@Override
+	public void run() {
+		this.operate();
+	}
+
+	public int getId() {
+		return id;
+	}
+	
+	public String getCurrentStatus() {
+		if(this.productUnderConstruction != null)
+			return "[M" + this.getId() + ": " + this.productUnderConstruction.toString() + "]\n";
+		return "[M" + this.getId() + ":  Null]\n"; 
+	}
+	
+	
 
 }

@@ -1,4 +1,4 @@
-package ToBeDeleted;
+package SimulationSystemComponents;
 
 public class Product {
 	
