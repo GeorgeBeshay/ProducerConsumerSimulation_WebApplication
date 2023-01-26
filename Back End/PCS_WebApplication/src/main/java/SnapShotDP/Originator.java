@@ -32,7 +32,7 @@ public class Originator {
 		color = memento.getColor();
 	}
 	
-	public Memento saveAllToMemento(Memento mement) {
+	public Memento saveAllToMemento() {
 		return new Memento(time,color);
 	}
 	
