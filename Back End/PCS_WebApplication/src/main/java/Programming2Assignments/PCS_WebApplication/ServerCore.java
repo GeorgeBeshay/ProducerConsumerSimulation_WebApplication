@@ -1,6 +1,7 @@
 package Programming2Assignments.PCS_WebApplication;
 
 import java.util.ArrayList;
+import java.util.*;
 
 import org.springframework.stereotype.Service;
 import FrontToBackProtocol.*;
@@ -61,6 +62,10 @@ public class ServerCore {
 		StageAndTime enhancedKonvaObject = new StageAndTime(konvaObject);
 		originator.setCurrentStage(enhancedKonvaObject);
 		careTaker.add(originator.save());
+	}
+	
+	public List<Memento> replay() {
+		return careTaker.getStageList();
 	}
 	
 }

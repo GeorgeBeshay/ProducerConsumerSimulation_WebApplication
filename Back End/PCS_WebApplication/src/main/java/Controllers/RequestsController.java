@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import FrontToBackProtocol.*;
 import Programming2Assignments.PCS_WebApplication.ServerCore;
 import java.util.*;
+import SnapShotDP.*;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping(value = "/server/")
@@ -47,6 +48,11 @@ public class RequestsController {
 	@PostMapping(value= {"saveStage"})
 	public void saveStage(@RequestBody Object konvaStage) {
 		this.myServerCore.saveStage(konvaStage);
+	}
+	
+	@PostMapping(value = {"replay"})
+	public List<Memento> replay(){
+		return this.myServerCore.replay();
 	}
 	
 

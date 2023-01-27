@@ -24,6 +24,12 @@ public class CareTaker {
 		}
 		System.out.println();
 	}
+
+	public List<Memento> getStageList() {
+		return StageList;
+	}
+	
+	
 	
 	
 }
