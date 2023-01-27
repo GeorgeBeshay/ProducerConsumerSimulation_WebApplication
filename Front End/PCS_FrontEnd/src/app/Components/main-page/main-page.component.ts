@@ -20,6 +20,7 @@ export class MainPageComponent implements OnInit {
   private systemMachines:FrontSystem={
     machines:[],
   };
+  private konvaMachines:Konva.Circle[]=[]; 
  // private machines:MachineFormat[]=[];
   constructor() { }
 
@@ -74,13 +75,13 @@ circle(id:string){
     height: 60,
     draggable: true,
   }); 
-
-  circle.add(new Konva.Circle({
+  var c=new Konva.Circle({
     fill: "gray",
     radius: 30,
     stroke: "black",
     strokeWidth: 2,
-  }));
+  })
+  circle.add(c);
 
   circle.add(new Konva.Text({
     text:id,
@@ -92,6 +93,8 @@ circle(id:string){
     align: 'center',
   }));
   this.board.add(circle);
+  this.konvaMachines.push(c);
+  console.log(this.konvaMachines);
   
 }
 ////////////////////separator////////////////////
@@ -180,6 +183,7 @@ clear(){
 ////////////////////separator////////////////////
 smiulate(){
  //call back
+ //this.konvaMachines[0].setAttr("fill",'#111');
 }
 
 // delete(){
