@@ -21,6 +21,7 @@ export class MainPageComponent implements OnInit {
     machines:[],
   };
   private konvaMachines:Konva.Circle[]=[]; 
+  private stop=false;
  // private machines:MachineFormat[]=[];
   constructor() { }
 
@@ -182,10 +183,17 @@ clear(){
 }
 ////////////////////separator////////////////////
 smiulate(){
+  
+  while(!this.stop){
+    //send requ
+  }
  //call back
  //this.konvaMachines[0].setAttr("fill",'#111');
 }
-
+////////////////////separator////////////////////
+Stop(){
+  this.stop=true
+}
 // delete(){
 //   let j=0;
 //   let thisExtender=this;
