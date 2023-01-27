@@ -29,19 +29,8 @@ export class MainPageComponent implements OnInit {
     this.board = new Konva.Layer();
     this.myStage.add(this.board);
   }
-
+  ////////////////////separator////////////////////
   rectangle(id:string){
-  // const rect = new Konva.Rect({
-  //   x: 50,
-  //   y: 50,
-  //   fill: "yellow",
-  //   height: 40,
-  //   width: 70,
-  //   stroke: "black",
-  //   strokeWidth: 2,
-  //   draggable: true
-  // });
-  // this.board.add(rect);
   var rectangle = new Konva.Group({
     x: 25, 
     y: 25, 
@@ -70,6 +59,7 @@ export class MainPageComponent implements OnInit {
   this.board.add(rectangle);
 }
 
+////////////////////separator////////////////////
 circle(id:string){
   var circle = new Konva.Group({
     x: 30, 
@@ -98,6 +88,7 @@ circle(id:string){
   this.board.add(circle);
   
 }
+////////////////////separator////////////////////
 arrow(x1:any,y1:any,x2:any,y2:any){
   const a=new Konva.Arrow({
     points: [x1, y1, x2,y2],
@@ -108,17 +99,19 @@ arrow(x1:any,y1:any,x2:any,y2:any){
   this.board.add(a);
   return a;
 }
-
+////////////////////separator////////////////////
 createMachine(){
   this.machineCount++;
   let id="M"+this.machineCount;
   this.circle(id);
 }
+////////////////////separator////////////////////
 createQueue(){
   let id="Q"+this.queueCount;
   this.rectangle(id);
   this.queueCount++;
 }
+////////////////////separator////////////////////
 createArrow(){
   let x1=0;
   let y1=0;
@@ -132,8 +125,6 @@ createArrow(){
       let start=((object.getParent()).getAttr("Children")[1]).getAttr("text");
       console.log(start);
       object.getParent().setAttr("draggable",false);
-      // x1=object.getAttr("x");
-      // y1=object.getAttr("y");
       x1=thisExtender.myStage.getPointerPosition()!.x;
       y1=thisExtender.myStage.getPointerPosition()!.y;
       i++;
@@ -142,36 +133,48 @@ createArrow(){
       let terminal=((object.getParent()).getAttr("Children")[1]).getAttr("text");
       console.log(terminal);
       object.getParent().setAttr("draggable",false);
-      // x2=object.getAttr("x");
-      // y2=object.getAttr("y");
       x2=thisExtender.myStage.getPointerPosition()!.x;
       y2=thisExtender.myStage.getPointerPosition()!.y;
       i++;
       thisExtender.arrow(x1,y1,x2,y2);
     }
   });
+}
+////////////////////separator////////////////////
+generateSystem(){
+  
+}
+////////////////////separator////////////////////
+clear(){
+  this.queueCount=0;
+  this.machineCount=0;
+  this.board.destroyChildren();
+}
+////////////////////separator////////////////////
+smiulate(){
+ //call back
+}
 
-  // this.myStage.on('mousedown', async function (e) {
-  //   isPressed = true;
-  //   x1=thisExtender.myStage.getPointerPosition()!.x;
-  //   y1=thisExtender.myStage.getPointerPosition()!.y;
-  // });
-  // let a:Konva.Arrow;
-  // this.myStage.on('mousemove', async function (e) {
-  //   if(isPressed) {
-  //   x2=thisExtender.myStage.getPointerPosition()!.x;
-  //   y2=thisExtender.myStage.getPointerPosition()!.y; 
-  //   if(i==0){
-  //     a=thisExtender.arrow(x1,y1,x2,y2);
-  //     i++;
-  //   }else{
-  //     a.setAttr("points",[x1, y1, x2,y2]);
-  //   }
-  //   }
-  // });
-  // this.myStage.on('mouseup', async function (e) {
-  //   isPressed = false;
-  // });
+// delete(){
+//   let j=0;
+//   let thisExtender=this;
+//   this.myStage.on('click', async function (e) {
+//     if(j==0){
+//       let object = e.target;
+//       let start=((object.getParent()).getAttr("Children")[1]).getAttr("text");
+//       console.log(start);
+//       (object.getParent()).delete();
+//       if(start.includes("Q")){
+
+//       }
+//       j++;
+//     }
+//   });
+// }
+
+////////////////////separator////////////////////
+replay(){
+
 }
 
 }
