@@ -80,7 +80,6 @@ public class Machine extends Subject implements Runnable{
 				e.printStackTrace();
 			}
 		}
-		this.productUnderConstruction = null;
 	}
 
 	@Override
