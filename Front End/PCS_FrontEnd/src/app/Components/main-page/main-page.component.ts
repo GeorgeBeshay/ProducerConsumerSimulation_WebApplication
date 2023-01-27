@@ -240,8 +240,9 @@ color(colors:string[]){
 // }
 
 ////////////////////separator////////////////////
-replay(){
-
+async replay(){
+  let replayStages=await this.serverCaller.replay();
+  console.log(replayStages);
 }
 
 }
