@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import FrontToBackProtocol.*;
+import Programming2Assignments.PCS_WebApplication.ServerCore;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping(value = "/server/")
