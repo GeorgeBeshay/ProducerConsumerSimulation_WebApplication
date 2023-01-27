@@ -21,8 +21,8 @@ public class Machine extends Subject implements Runnable{
 	
 	// Machine Operating Status Flag
 	private boolean flag;
-	
-	// Machine Operating Status Flag
+
+		// Machine Operating Status Flag
 		private boolean finished;
 	
 	// Machine Time to build a unit
@@ -95,6 +95,10 @@ public class Machine extends Subject implements Runnable{
 		if(this.productUnderConstruction != null)
 			return "[M" + this.getId() + ": " + this.productUnderConstruction.toString() + "]\n";
 		return "[M" + this.getId() + ":  Null]\n"; 
+	}
+	
+	public Product getProductUnderConstruction() {
+		return productUnderConstruction;
 	}
 	
 	

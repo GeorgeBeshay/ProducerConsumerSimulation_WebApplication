@@ -21,4 +21,10 @@ public class Product {
 		return "P" + this.id;
 	}
 
+	public String getProdColor() {
+		return prodColor;
+	}
+	
+	
+
 }

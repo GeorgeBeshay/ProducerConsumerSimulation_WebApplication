@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import FrontToBackProtocol.*;
 import Programming2Assignments.PCS_WebApplication.ServerCore;
+import java.util.*;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping(value = "/server/")
@@ -24,8 +25,13 @@ public class RequestsController {
 	}
 	
 	@PostMapping(value= {"initialize/{prodsCount}"})
-	public boolean initializeSimulation(@RequestBody FrontSystem frontSystem, @PathVariable int prodsCount) {
-		return this.myServerCore.initializeSimulation(frontSystem, prodsCount);
+	public void initializeSimulation(@RequestBody FrontSystem frontSystem, @PathVariable int prodsCount) {
+		this.myServerCore.initializeSimulation(frontSystem, prodsCount);
+	}
+	
+	@PostMapping(value= {"update"})
+	public ArrayList<String> updateSimulation() {
+		return this.myServerCore.updateSimulation();
 	}
 	
 

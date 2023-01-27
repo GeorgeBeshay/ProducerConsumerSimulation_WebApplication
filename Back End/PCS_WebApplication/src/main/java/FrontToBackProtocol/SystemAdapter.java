@@ -8,7 +8,7 @@ import java.util.Random;
 
 import SimulationSystemComponents.*;
 
-public class SystemAdapter implements SimulationSystemIF{
+public class SystemAdapter implements SimulationSystemIF, Runnable{
 	
 	private FrontSystem frontSystem;
 	private SimulationSystem backSystem;
@@ -66,6 +66,17 @@ public class SystemAdapter implements SimulationSystemIF{
 			count--;
 		}
 	}
+
+	@Override
+	public void run() {
+		this.generateSystem();
+	}
+
+	public SimulationSystem getBackSystem() {
+		return backSystem;
+	}
+	
+	
 	
 	
 

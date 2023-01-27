@@ -10,6 +10,8 @@ public class SimulationSystem implements Observer, SimulationSystemIF {
 	private int prodsCount; // Products count at initialization
 	private boolean systemConditionFlag;
 	private boolean ready;
+	private boolean simulationUpdated;
+	private ArrayList<String> simulationColors;
 	
 	
 	public SimulationSystem(ArrayList<Machine> systemMachines, HashMap<Integer, BlockingQueue<Product>> systemQueues, int prodsCount) {
@@ -20,6 +22,7 @@ public class SimulationSystem implements Observer, SimulationSystemIF {
 		this.prepareSystem();
 		this.ready = true;
 		this.prodsCount = prodsCount;
+		this.simulationUpdated = false;
 	}
 	
 	public void prepareSystem() {
@@ -63,18 +66,27 @@ public class SimulationSystem implements Observer, SimulationSystemIF {
 	@Override
 	public synchronized void update() {
 		this.ready = false;
+		// ------------------- Separator -------------------
 		String systemStatus = "-----------------------------------------------\nCurrent System Status:\n";
 		systemStatus += "{\n";
+		this.simulationColors = new ArrayList<String>(systemMachines.size());
 		for(Machine M : this.systemMachines) {
-			systemStatus += M.getCurrentStatus(); 
+			systemStatus += M.getCurrentStatus();
+			if(M.getProductUnderConstruction() != null)
+				this.simulationColors.add(M.getProductUnderConstruction().getProdColor());
+			else
+				this.simulationColors.add("#808080");
 		}
 		for(int key : this.systemQueues.keySet()) {
 			systemStatus += "Q" + Integer.toString(key) + ": " + this.systemQueues.get(key).toString() + "\n";
 		}
 		systemStatus += "}";
+		// ------------------- Separator -------------------
 		System.out.println(systemStatus);
 		this.ready = true;
 		notifyAll();
+		this.simulationUpdated = true;
+		// ------------------- Separator -------------------
 	}
 
 	@Override
@@ -85,6 +97,32 @@ public class SimulationSystem implements Observer, SimulationSystemIF {
 	public void setReady(boolean ready) {
 		this.ready = ready;
 	}
+
+	public ArrayList<Machine> getSystemMachines() {
+		return systemMachines;
+	}
+
+	public HashMap<Integer, BlockingQueue<Product>> getSystemQueues() {
+		return systemQueues;
+	}
+
+	public int getProdsCount() {
+		return prodsCount;
+	}
+
+	public boolean isSystemConditionFlag() {
+		return systemConditionFlag;
+	}
+
+	public boolean isSimulationUpdated() {
+		return simulationUpdated;
+	}
+
+	public ArrayList<String> getSimulationColors() {
+		return simulationColors;
+	}
+	
+	
 	
 
 }
