@@ -6,7 +6,7 @@ public class TryingMemento {
 		// TODO Auto-generated method stub
 		Originator org = new Originator();
 		CareTaker care = new CareTaker();
-		long time = 10000;
+		long time = System.currentTimeMillis();
 		String Stage = "Red, blue, green";
 		StageAndTime st = new StageAndTime(time, Stage);
 		org.setCurrentStage(st);
