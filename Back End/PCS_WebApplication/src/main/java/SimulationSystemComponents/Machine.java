@@ -31,8 +31,7 @@ public class Machine extends Subject implements Runnable{
 	public Machine(int id, double buildingTimeSeconds, BlockingQueue<Product> outputQueue, BlockingQueue<Product> inputQueue) {
 		super();
 		this.id = id;
-		this.buildingTime = 1000 * (long)buildingTimeSeconds;
-		System.out.println(this.buildingTime);
+		this.buildingTime = Math.round(1000 * buildingTimeSeconds);
 		this.outputQueue = outputQueue;
 		this.inputQueue = inputQueue;
 		this.flag = true;
