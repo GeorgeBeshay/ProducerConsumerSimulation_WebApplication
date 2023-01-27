@@ -39,6 +39,10 @@ public class ServerCore {
 		return ServerCore.serverCore;
 	}
 	
+	public boolean finishedSimulation() {
+		return !(currentSystemAdapter.getBackSystem().isSystemConditionFlag());
+	}
+	
 	
 
 }

@@ -34,5 +34,10 @@ public class RequestsController {
 		return this.myServerCore.updateSimulation();
 	}
 	
+	@PostMapping(value= {"finished"})
+	public boolean finishedSimuation() {
+		return this.myServerCore.finishedSimulation();
+	}
+	
 
 }
