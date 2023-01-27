@@ -206,7 +206,8 @@ async smiulate(){
  //this.konvaMachines[0].setAttr("fill",'#111');
 }
 ////////////////////separator////////////////////
-Stop(){
+async Stop(){
+  await this.serverCaller.stop();
   this.stop=true
 }
 

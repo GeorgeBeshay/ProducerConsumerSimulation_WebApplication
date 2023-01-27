@@ -21,4 +21,7 @@ export class ServerCallerService {
   async finished(){
     return await firstValueFrom(this.http.post<boolean>(this.url + 'finished',null));
   }
+  async stop(){
+    return await firstValueFrom(this.http.post(this.url + 'stop',null));
+  }
 }
