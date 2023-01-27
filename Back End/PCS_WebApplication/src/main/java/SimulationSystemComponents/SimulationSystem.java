@@ -12,13 +12,14 @@ public class SimulationSystem implements Observer, SimulationSystemIF {
 	private boolean ready;
 	
 	
-	public SimulationSystem(ArrayList<Machine> systemMachines, HashMap<Integer, BlockingQueue<Product>> systemQueues) {
+	public SimulationSystem(ArrayList<Machine> systemMachines, HashMap<Integer, BlockingQueue<Product>> systemQueues, int prodsCount) {
 		this.systemMachines = systemMachines;
 		this.systemQueues = systemQueues;
 		this.prodsCount = this.systemQueues.get(0).size();
 		this.systemConditionFlag = true;
 		this.prepareSystem();
 		this.ready = true;
+		this.prodsCount = prodsCount;
 	}
 	
 	public void prepareSystem() {

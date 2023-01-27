@@ -23,7 +23,7 @@ public class Main {
 		systemMachines.add(m1);
 		systemMachines.add(m2);
 		
-		SimulationSystem S = new SimulationSystem(systemMachines, systemQueues);
+		SimulationSystem S = new SimulationSystem(systemMachines, systemQueues, 6);
 		S.generateSystem();
 		
 	}

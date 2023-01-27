@@ -28,6 +28,5 @@ public class RequestsController {
 		return this.myServerCore.initializeSimulation(frontSystem, prodsCount);
 	}
 	
-	
 
 }

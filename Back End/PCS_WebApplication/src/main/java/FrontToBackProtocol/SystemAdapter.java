@@ -43,7 +43,7 @@ public class SystemAdapter implements SimulationSystemIF{
 			systemQueues.put(frontMachine.getNextQueueID(), outputQueue);
 		}
 		this.generateProducts(this.prodsCount, systemQueues.get(0));
-		this.backSystem = new SimulationSystem(systemMachines, systemQueues);
+		this.backSystem = new SimulationSystem(systemMachines, systemQueues, this.prodsCount);
 	}
 	
 	public double getRandomNumber() {
