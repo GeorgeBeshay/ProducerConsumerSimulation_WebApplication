@@ -7,6 +7,7 @@ import { MachineFormat } from 'src/app/Interfaces/machine-format';
 import { FrontSystem } from 'src/app/Interfaces/front-system';
 import { HttpClient } from '@angular/common/http';
 import { ServerCallerService } from 'src/app/Services/server-caller.service';
+import { delay } from 'rxjs';
 @Component({
   selector: 'app-main-page',
   templateUrl: './main-page.component.html',
@@ -24,6 +25,7 @@ export class MainPageComponent implements OnInit {
   private konvaMachines:Konva.Circle[]=[]; 
   private stop=false;
   private serverCaller!:ServerCallerService;
+  private stages:any[]=[];
  // private machines:MachineFormat[]=[];
   constructor(private http: HttpClient) { 
     this.serverCaller=new ServerCallerService(this.http);
@@ -183,7 +185,16 @@ generateSystem(obj1:string,obj2:string){
 clear(){
   this.queueCount=0;
   this.machineCount=0;
-  this.board.destroyChildren();
+  var stageHolder = document.querySelector('#holder');
+    if (stageHolder != null) {
+      this.myStage = new Konva.Stage({
+        width: stageHolder?.clientWidth - 10,
+        height: stageHolder?.clientHeight - 20,
+        container: 'konva-holder',
+      });
+    }
+    this.board = new Konva.Layer();
+    this.myStage.add(this.board);
   this.konvaMachines=[];
   this.systemMachines.frontMachines=[];
   this.stop=false;
@@ -192,10 +203,13 @@ clear(){
 ////////////////////separator////////////////////
 async smiulate(){
   console.log(this.myStage);
+  this.stages=[];
   let productsNumber=Number((document.getElementById("numberOfProducts")as HTMLInputElement).value);
   console.log(this.systemMachines)
   await this.serverCaller.intialize(productsNumber,this.systemMachines);
   await this.serverCaller.saveStage(this.myStage);
+  const newstage =this.myStage.toJSON();
+  this.stages.push({'stage': newstage, 'time': Date.now()});
   let flag=false;
   while(!this.stop && !flag){
     //send requ
@@ -204,14 +218,15 @@ async smiulate(){
     console.log(colors);
     this.color(colors);
     await this.serverCaller.saveStage(this.myStage);
+    const newstage =this.myStage.toJSON();
+    this.stages.push({'stage': newstage, 'time': Date.now()});
   }
- //call back
- //this.konvaMachines[0].setAttr("fill",'#111');
 }
 ////////////////////separator////////////////////
 async Stop(){
-  await this.serverCaller.stop();
   this.stop=true
+  await this.serverCaller.stop();
+  
 }
 
 color(colors:string[]){
@@ -222,27 +237,23 @@ color(colors:string[]){
   }
 
 }
-// delete(){
-//   let j=0;
-//   let thisExtender=this;
-//   this.myStage.on('click', async function (e) {
-//     if(j==0){
-//       let object = e.target;
-//       let start=((object.getParent()).getAttr("Children")[1]).getAttr("text");
-//       console.log(start);
-//       (object.getParent()).delete();
-//       if(start.includes("Q")){
-
-//       }
-//       j++;
-//     }
-//   });
-// }
-
 ////////////////////separator////////////////////
 async replay(){
-  let replayStages=await this.serverCaller.replay();
-  console.log(replayStages);
+  for(let i=0;i<this.stages.length;i++){
+    let s=this.stages[i];
+    console.log(s);
+    this.myStage=Konva.Node.create(s.stage,'konva-holder');
+    let t1=s.time;
+    if(i<this.stages.length-1){
+      let s2=this.stages[i+1];
+      let t2=s2.time;
+      let time=t2-t1;
+      // await delay(time);
+      await new Promise(f => setTimeout(f, time));
+    }
+  }
 }
+
+
 
 }

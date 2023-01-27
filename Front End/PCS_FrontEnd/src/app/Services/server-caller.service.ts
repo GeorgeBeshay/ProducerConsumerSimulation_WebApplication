@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { firstValueFrom, Observable } from 'rxjs';
 import { FrontSystem } from '../Interfaces/front-system';
-import { Stages } from '../Interfaces/stages';
+import { Memento } from '../Interfaces/stages';
 
 @Injectable({
   providedIn: 'root'
@@ -29,6 +29,6 @@ export class ServerCallerService {
     return await firstValueFrom(this.http.post(this.url + 'saveStage',myStage));
   }
   async replay(){
-    return await firstValueFrom(this.http.post<Stages[]>(this.url + 'replay',null));
+    return await firstValueFrom(this.http.post<Memento[]>(this.url + 'replay',null));
   }
 }

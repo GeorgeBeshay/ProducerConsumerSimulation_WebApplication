@@ -1,8 +1,8 @@
 import Konva from "konva"
 
-export interface Stages {
+export interface Memento {
     StageAndTime:{
         time:number,
-        Stage:Konva.Stage,
+        Stage:Object,
     };
 }
