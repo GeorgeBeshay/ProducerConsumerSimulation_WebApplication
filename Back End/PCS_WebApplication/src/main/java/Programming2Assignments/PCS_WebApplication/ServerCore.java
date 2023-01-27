@@ -18,12 +18,12 @@ public class ServerCore {
 	private ServerCore() {}
 	
 	public boolean initializeSimulation(FrontSystem frontSystem, int prodsCount) {
+		originator = new Originator();
+		careTaker = new CareTaker();
 		currentSystemAdapter = new SystemAdapter(frontSystem, prodsCount); 
 		currentSystemAdapter.adapt();
 		Thread initializationThread = new Thread(currentSystemAdapter);
 		initializationThread.start();
-		originator = new Originator();
-		careTaker = new CareTaker();
 		return true;
 	}
 	
