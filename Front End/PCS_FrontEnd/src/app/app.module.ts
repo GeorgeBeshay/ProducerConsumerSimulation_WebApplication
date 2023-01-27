@@ -5,6 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MainPageComponent } from './Components/main-page/main-page.component';
 import { KonvaModule } from 'ng2-konva';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import { KonvaModule } from 'ng2-konva';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    KonvaModule
+    KonvaModule,
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

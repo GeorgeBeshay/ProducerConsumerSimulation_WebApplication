@@ -5,7 +5,8 @@ import { Layer } from 'konva/lib/Layer';
 import { KonvaComponent } from 'ng2-konva';
 import { MachineFormat } from 'src/app/Interfaces/machine-format';
 import { FrontSystem } from 'src/app/Interfaces/front-system';
-import { generate } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { ServerCallerService } from 'src/app/Services/server-caller.service';
 @Component({
   selector: 'app-main-page',
   templateUrl: './main-page.component.html',
@@ -18,12 +19,15 @@ export class MainPageComponent implements OnInit {
   private machineCount=0;
   private queueCount=0;
   private systemMachines:FrontSystem={
-    machines:[],
+    frontMachines:[],
   };
   private konvaMachines:Konva.Circle[]=[]; 
   private stop=false;
+  private serverCaller!:ServerCallerService;
  // private machines:MachineFormat[]=[];
-  constructor() { }
+  constructor(private http: HttpClient) { 
+    this.serverCaller=new ServerCallerService(this.http);
+  }
 
   ngOnInit(): void {
     var stageHolder = document.querySelector('#holder');
@@ -163,16 +167,16 @@ generateSystem(obj1:string,obj2:string){
       machineID:Number(id2),
       nextQueueID:0,
     };
-    this.systemMachines.machines.push(m);
-    console.log(this.systemMachines.machines);
+    this.systemMachines.frontMachines.push(m);
+    console.log(this.systemMachines.frontMachines);
   }else{
-    for(let m of this.systemMachines.machines){
+    for(let m of this.systemMachines.frontMachines){
       if(m.machineID==Number(id1)){
         m.nextQueueID=Number(id2);
          console.log(m);
       }
     }
-    console.log(this.systemMachines.machines);
+    console.log(this.systemMachines.frontMachines);
   }
 }
 ////////////////////separator////////////////////
@@ -182,8 +186,10 @@ clear(){
   this.board.destroyChildren();
 }
 ////////////////////separator////////////////////
-smiulate(){
-  
+async smiulate(){
+  let productsNumber=Number((document.getElementById("numberOfProducts")as HTMLInputElement).value);
+  console.log(this.systemMachines)
+  await this.serverCaller.intialize(productsNumber,this.systemMachines);
   while(!this.stop){
     //send requ
   }
