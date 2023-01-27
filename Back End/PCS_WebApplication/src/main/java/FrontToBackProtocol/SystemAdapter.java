@@ -12,9 +12,11 @@ public class SystemAdapter implements SimulationSystemIF{
 	
 	private FrontSystem frontSystem;
 	private SimulationSystem backSystem;
+	private int prodsCount;
 	
-	public SystemAdapter(FrontSystem frontSystem) {
+	public SystemAdapter(FrontSystem frontSystem, int prodsCount) {
 		this.frontSystem = frontSystem;
+		this.prodsCount = prodsCount;
 	}
 	
 	public void adapt() {
@@ -40,6 +42,7 @@ public class SystemAdapter implements SimulationSystemIF{
 			systemQueues.put(frontMachine.getPreviousQueueID(), inputQueue);
 			systemQueues.put(frontMachine.getNextQueueID(), outputQueue);
 		}
+		this.generateProducts(this.prodsCount, systemQueues.get(0));
 		this.backSystem = new SimulationSystem(systemMachines, systemQueues);
 	}
 	
@@ -51,6 +54,17 @@ public class SystemAdapter implements SimulationSystemIF{
 	@Override
 	public void generateSystem() {
 		this.backSystem.generateSystem();
+	}
+	
+	public void generateProducts(int count, BlockingQueue<Product> Q) {
+		while(count > 0) {
+			try {
+				Q.put(new Product(count));
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			count--;
+		}
 	}
 	
 	
