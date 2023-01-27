@@ -39,5 +39,12 @@ public class RequestsController {
 		return this.myServerCore.finishedSimulation();
 	}
 	
+	@PostMapping(value= {"stop"})
+	public void stopSimulation() {
+		this.myServerCore.stopSimulation();
+	}
+	
+	
+	
 
 }

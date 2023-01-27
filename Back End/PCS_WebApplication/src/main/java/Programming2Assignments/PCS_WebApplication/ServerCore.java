@@ -43,6 +43,10 @@ public class ServerCore {
 		return !(currentSystemAdapter.getBackSystem().isSystemConditionFlag());
 	}
 	
+	public void stopSimulation() {
+		currentSystemAdapter.getBackSystem().setSystemConditionFlag(false);
+	}
+	
 	
 
 }

@@ -121,6 +121,12 @@ public class SimulationSystem implements Observer, SimulationSystemIF {
 	public ArrayList<String> getSimulationColors() {
 		return simulationColors;
 	}
+
+	public void setSystemConditionFlag(boolean systemConditionFlag) {
+		this.systemConditionFlag = systemConditionFlag;
+	}
+	
+	
 	
 	
 	
