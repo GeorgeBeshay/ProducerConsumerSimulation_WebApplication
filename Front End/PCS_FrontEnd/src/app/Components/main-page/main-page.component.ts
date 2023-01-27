@@ -3,6 +3,9 @@ import Konva from 'konva';
 import { Stage } from 'konva/lib/Stage';
 import { Layer } from 'konva/lib/Layer';
 import { KonvaComponent } from 'ng2-konva';
+import { MachineFormat } from 'src/app/Interfaces/machine-format';
+import { FrontSystem } from 'src/app/Interfaces/front-system';
+import { generate } from 'rxjs';
 @Component({
   selector: 'app-main-page',
   templateUrl: './main-page.component.html',
@@ -14,7 +17,10 @@ export class MainPageComponent implements OnInit {
   private board!: Layer;
   private machineCount=0;
   private queueCount=0;
-
+  private systemMachines:FrontSystem={
+    machines:[],
+  };
+ // private machines:MachineFormat[]=[];
   constructor() { }
 
   ngOnInit(): void {
@@ -118,11 +124,12 @@ createArrow(){
   let x2=0;
   let y2=0;
   let i=0;
+  let start:string;
   let thisExtender=this;
   this.myStage.on('click', async function (e) {
     if(i==0){
       let object = e.target;
-      let start=((object.getParent()).getAttr("Children")[1]).getAttr("text");
+      start=((object.getParent()).getAttr("Children")[1]).getAttr("text");
       console.log(start);
       object.getParent().setAttr("draggable",false);
       x1=thisExtender.myStage.getPointerPosition()!.x;
@@ -137,12 +144,32 @@ createArrow(){
       y2=thisExtender.myStage.getPointerPosition()!.y;
       i++;
       thisExtender.arrow(x1,y1,x2,y2);
+      thisExtender.generateSystem(start,terminal);
+      console.log(start[1],terminal[1]);
     }
   });
 }
 ////////////////////separator////////////////////
-generateSystem(){
-  
+generateSystem(obj1:string,obj2:string){
+  let id1=obj1[1]
+  let id2=obj2[1]
+  if(obj1.includes("Q")){
+    let m:MachineFormat={
+      previousQueueID:Number(id1),
+      machineID:Number(id2),
+      nextQueueID:0,
+    };
+    this.systemMachines.machines.push(m);
+    console.log(this.systemMachines.machines);
+  }else{
+    for(let m of this.systemMachines.machines){
+      if(m.machineID==Number(id1)){
+        m.nextQueueID=Number(id2);
+         console.log(m);
+      }
+    }
+    console.log(this.systemMachines.machines);
+  }
 }
 ////////////////////separator////////////////////
 clear(){

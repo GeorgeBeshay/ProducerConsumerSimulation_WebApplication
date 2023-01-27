@@ -1,5 +1,5 @@
+import { MachineFormat } from "./machine-format";
+
 export interface FrontSystem {
-     machineID:number;
-     inQueueID:number;
-     outQueueID:number;
+     machines: MachineFormat[];
 }
