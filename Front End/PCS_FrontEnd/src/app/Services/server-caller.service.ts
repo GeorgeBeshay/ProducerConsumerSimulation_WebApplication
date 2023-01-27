@@ -24,4 +24,7 @@ export class ServerCallerService {
   async stop(){
     return await firstValueFrom(this.http.post(this.url + 'stop',null));
   }
+  async saveStage(myStage:any){
+    return await firstValueFrom(this.http.post(this.url + 'saveStage',myStage));
+  }
 }

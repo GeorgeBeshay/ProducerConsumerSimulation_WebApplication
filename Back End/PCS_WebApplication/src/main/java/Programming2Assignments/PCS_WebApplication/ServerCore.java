@@ -48,8 +48,8 @@ public class ServerCore {
 	
 	public boolean finishedSimulation() {
 		boolean flag = !(currentSystemAdapter.getBackSystem().isSystemConditionFlag());
-		if(flag)
-			careTaker.showStages();
+		System.out.println("stages:");
+		careTaker.showStages();
 		return flag;
 	}
 	
