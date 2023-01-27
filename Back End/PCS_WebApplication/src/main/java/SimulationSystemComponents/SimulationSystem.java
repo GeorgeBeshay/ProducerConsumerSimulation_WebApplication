@@ -3,7 +3,7 @@ package SimulationSystemComponents;
 import java.util.*;
 import java.util.concurrent.*;
 
-public class SimulationSystem implements Observer {
+public class SimulationSystem implements Observer, SimulationSystemIF {
 	
 	private ArrayList<Machine> systemMachines;
 	private HashMap<Integer, BlockingQueue<Product>> systemQueues;
