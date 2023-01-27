@@ -184,6 +184,10 @@ clear(){
   this.queueCount=0;
   this.machineCount=0;
   this.board.destroyChildren();
+  this.konvaMachines=[];
+  this.systemMachines.frontMachines=[];
+  this.stop=false;
+  //c
 }
 ////////////////////separator////////////////////
 async smiulate(){
