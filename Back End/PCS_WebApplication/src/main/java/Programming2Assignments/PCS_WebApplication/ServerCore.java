@@ -4,12 +4,16 @@ import java.util.ArrayList;
 
 import org.springframework.stereotype.Service;
 import FrontToBackProtocol.*;
+import SnapShotDP.*;
 
 @Service
 public class ServerCore {
 	
 	private static ServerCore serverCore;
 	private static SystemAdapter currentSystemAdapter;
+	private static Originator originator;
+	private static CareTaker careTaker;
+	
 	
 	private ServerCore() {}
 	
@@ -18,6 +22,8 @@ public class ServerCore {
 		currentSystemAdapter.adapt();
 		Thread initializationThread = new Thread(currentSystemAdapter);
 		initializationThread.start();
+		originator = new Originator();
+		careTaker = new CareTaker();
 		return true;
 	}
 	
@@ -41,13 +47,20 @@ public class ServerCore {
 	}
 	
 	public boolean finishedSimulation() {
-		return !(currentSystemAdapter.getBackSystem().isSystemConditionFlag());
+		boolean flag = !(currentSystemAdapter.getBackSystem().isSystemConditionFlag());
+		if(flag)
+			careTaker.showStages();
+		return flag;
 	}
 	
 	public void stopSimulation() {
 		currentSystemAdapter.getBackSystem().setSystemConditionFlag(false);
 	}
 	
+	public void saveStage(Object konvaObject) {
+		StageAndTime enhancedKonvaObject = new StageAndTime(konvaObject);
+		originator.setCurrentStage(enhancedKonvaObject);
+		careTaker.add(originator.save());
+	}
 	
-
 }

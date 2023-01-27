@@ -4,9 +4,9 @@ public class StageAndTime {
 	long time;
 	Object Stage;
 	
-	public StageAndTime(long time, Object stage) {
+	public StageAndTime(Object stage) {
 		super();
-		this.time = time;
+		this.time = System.currentTimeMillis();
 		Stage = stage;
 	}
 

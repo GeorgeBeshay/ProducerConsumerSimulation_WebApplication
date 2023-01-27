@@ -6,12 +6,10 @@ public class TryingMemento {
 		// TODO Auto-generated method stub
 		Originator org = new Originator();
 		CareTaker care = new CareTaker();
-		long time = System.currentTimeMillis();
 		String Stage = "Red, blue, green";
-		StageAndTime st = new StageAndTime(time, Stage);
+		StageAndTime st = new StageAndTime(Stage);
 		org.setCurrentStage(st);
 		care.add(org.save());
-		
 		org.revert(care.get(0));
 		System.out.println("first saved Stage: " + (org.getCurrentStage()).toString());
 	}

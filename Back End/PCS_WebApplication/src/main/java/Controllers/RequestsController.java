@@ -44,7 +44,10 @@ public class RequestsController {
 		this.myServerCore.stopSimulation();
 	}
 	
-	
+	@PostMapping(value= {"saveStage"})
+	public void saveStage(@RequestBody Object konvaStage) {
+		this.myServerCore.saveStage(konvaStage);
+	}
 	
 
 }
