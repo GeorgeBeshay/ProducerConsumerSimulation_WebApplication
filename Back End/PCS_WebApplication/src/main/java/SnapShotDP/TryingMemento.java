@@ -12,7 +12,6 @@ public class TryingMemento {
 		org.setCurrentStage(st);
 		care.add(org.save());
 		
-		
 		org.revert(care.get(0));
 		System.out.println("first saved Stage: " + (org.getCurrentStage()).toString());
 	}

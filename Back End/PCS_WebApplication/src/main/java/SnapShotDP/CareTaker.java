@@ -11,8 +11,11 @@ public class CareTaker {
 	}
 	
 	public Memento get(int Index) {
-		return StageList.get(Index);
-		
+		return StageList.get(Index);	
+	}
+	
+	public int size() {
+		return StageList.size();
 	}
 //	private List<Memento> TimeList = new ArrayList<Memento>();
 //	private List<Memento> ColorList = new ArrayList<Memento>();
