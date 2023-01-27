@@ -125,6 +125,11 @@ public class SimulationSystem implements Observer, SimulationSystemIF {
 	public void setSystemConditionFlag(boolean systemConditionFlag) {
 		this.systemConditionFlag = systemConditionFlag;
 	}
+
+	public void setSimulationUpdated(boolean simulationUpdated) {
+		this.simulationUpdated = simulationUpdated;
+	}
+	
 	
 	
 	

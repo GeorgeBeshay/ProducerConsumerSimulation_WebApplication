@@ -22,13 +22,14 @@ public class ServerCore {
 	}
 	
 	public ArrayList<String> updateSimulation(){
-		while(!currentSystemAdapter.getBackSystem().isSimulationUpdated()) {
+		while(!currentSystemAdapter.getBackSystem().isReady() || !currentSystemAdapter.getBackSystem().isSimulationUpdated()) {
 			try {
 				Thread.sleep(100);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
+		currentSystemAdapter.getBackSystem().setSimulationUpdated(false);
 		return currentSystemAdapter.getBackSystem().getSimulationColors();
 	}
 
