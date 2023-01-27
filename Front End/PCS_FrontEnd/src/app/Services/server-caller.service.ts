@@ -15,7 +15,10 @@ export class ServerCallerService {
   async intialize(productsCount:number,systemMachines:FrontSystem){
     return await firstValueFrom(this.http.post(this.url + 'initialize/'+productsCount,systemMachines ));
   }
-  // async update(productsCount:number,systemMachines:FrontSystem){
-  //   return await firstValueFrom(this.http.post(this.url + 'initialize/'+productsCount,systemMachines ));
-  // }
+  async update(){
+    return await firstValueFrom(this.http.post<string[]>(this.url + 'update',null));
+  }
+  async finished(){
+    return await firstValueFrom(this.http.post<boolean>(this.url + 'finished',null));
+  }
 }

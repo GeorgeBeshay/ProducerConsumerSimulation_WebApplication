@@ -190,8 +190,13 @@ async smiulate(){
   let productsNumber=Number((document.getElementById("numberOfProducts")as HTMLInputElement).value);
   console.log(this.systemMachines)
   await this.serverCaller.intialize(productsNumber,this.systemMachines);
-  while(!this.stop){
+  let flag=false;
+  while(!this.stop && !flag){
     //send requ
+    let colors=await this.serverCaller.update();
+    flag=await this.serverCaller.finished();
+    console.log(colors);
+    this.color(colors);
   }
  //call back
  //this.konvaMachines[0].setAttr("fill",'#111');
@@ -199,6 +204,14 @@ async smiulate(){
 ////////////////////separator////////////////////
 Stop(){
   this.stop=true
+}
+
+color(colors:string[]){
+  let c=0;
+  for(let m of this.konvaMachines){
+    m.setAttr("fill",colors[c]);
+    c++;
+  }
 }
 // delete(){
 //   let j=0;
