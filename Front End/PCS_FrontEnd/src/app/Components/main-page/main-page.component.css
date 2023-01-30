@@ -4,6 +4,7 @@
   grid-template-rows: repeat(11, 1fr) 0.5fr;
   width: 100%;
   height: 100vh;
+  font-family: "Aboreto";
 }
 .header {
   grid-area: 1 / 1 / 2 / 13;
@@ -16,8 +17,9 @@
   grid-area: 2 / 1 / 3 / 13;
   background-color: #adb5bd;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
+  gap: 20px;
   color: black;
   font-weight: 700;
   padding-inline: 5px;
@@ -29,6 +31,25 @@
   align-items: center;
   gap: 10px;
 }
+.prodsCount {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.prodsCount input {
+  background-color: #495057;
+  border: 1px solid black;
+  height: 100%;
+  padding: 10px;
+  transition-duration: 100ms;
+  margin-left: 5px;
+  color: white;
+  font-family: "Aboreto";
+  font-weight: 600;
+}
+.prodsCount input:focus {
+  outline: none;
+}
 .options > .status {
   margin-left: 250px;
   text-align: center;
@@ -36,7 +57,7 @@
 .board {
   grid-area: 3 / 1 / 12 / 13;
   background-color: #343a40;
-  padding: 2px;
+  /* padding: 2px; */
   margin: 5px;
   -webkit-border-radius: 7px;
   -moz-border-radius: 7px;
@@ -57,7 +78,11 @@
   font-size: 17px;
   font-weight: 900;
 }
-
+button {
+  font-weight: 700;
+  font-size: 15px;
+  padding: 5px 10px;
+}
 #konva-holder {
   background-color: white;
   -webkit-border-radius: 10px;

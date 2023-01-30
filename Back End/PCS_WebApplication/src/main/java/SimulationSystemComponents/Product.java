@@ -3,7 +3,7 @@ package SimulationSystemComponents;
 import java.util.Random;
 import java.awt.Color;
 
-public class Product {
+public class Product{
 	
 	int id;
 	String prodColor;
@@ -16,6 +16,11 @@ public class Product {
 		System.out.println(this.prodColor);
 	}
 	
+	public Product(Product product) {
+		this.id = product.id;
+		this.prodColor = product.prodColor;
+	}
+	
 	@Override
 	public String toString() {
 		return "P" + this.id;
@@ -23,6 +28,11 @@ public class Product {
 
 	public String getProdColor() {
 		return prodColor;
+	}
+	
+	@Override
+	public Product clone() {
+		return new Product(this);
 	}
 	
 	

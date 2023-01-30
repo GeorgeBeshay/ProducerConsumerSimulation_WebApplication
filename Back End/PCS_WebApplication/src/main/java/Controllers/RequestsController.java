@@ -35,6 +35,11 @@ public class RequestsController {
 		return this.myServerCore.updateSimulation();
 	}
 	
+	@PostMapping(value = {"queues"})
+	public ArrayList<Integer> queuesCount(){
+		return this.myServerCore.queuesCount();
+	}
+	
 	@PostMapping(value= {"finished"})
 	public boolean finishedSimuation() {
 		return this.myServerCore.finishedSimulation();
@@ -44,16 +49,5 @@ public class RequestsController {
 	public void stopSimulation() {
 		this.myServerCore.stopSimulation();
 	}
-	
-	@PostMapping(value= {"saveStage"})
-	public void saveStage(@RequestBody Object konvaStage) {
-		this.myServerCore.saveStage(konvaStage);
-	}
-	
-	@PostMapping(value = {"replay"})
-	public List<Memento> replay(){
-		return this.myServerCore.replay();
-	}
-	
 
 }

@@ -10,7 +10,7 @@ public class Main {
 		BlockingQueue<Product> tempQ1 = new ArrayBlockingQueue<Product>(10);
 		BlockingQueue<Product> tempQ2 = new ArrayBlockingQueue<Product>(10);
 		BlockingQueue<Product> tempQ3 = new ArrayBlockingQueue<Product>(10);
-		generateProducts(6, tempQ1);
+		generateProducts(3, tempQ1);
 		
 		HashMap<Integer, BlockingQueue<Product>> systemQueues = new HashMap<Integer, BlockingQueue<Product>>();
 		systemQueues.put(0, tempQ1);
@@ -23,8 +23,17 @@ public class Main {
 		systemMachines.add(m1);
 		systemMachines.add(m2);
 		
-		SimulationSystem S = new SimulationSystem(systemMachines, systemQueues, 6);
+		SimulationSystem S = new SimulationSystem(systemMachines, systemQueues, 3);
 		S.generateSystem();
+		while(S.isSystemConditionFlag()) {
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		S.replay();
 		
 	}
 	

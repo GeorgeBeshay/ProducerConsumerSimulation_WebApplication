@@ -2,6 +2,7 @@ package SimulationSystemComponents;
 
 import java.util.*;
 import java.util.concurrent.*;
+import SnapShotDP.*;
 
 public class SimulationSystem implements Observer, SimulationSystemIF {
 	
@@ -12,6 +13,9 @@ public class SimulationSystem implements Observer, SimulationSystemIF {
 	private boolean ready;
 	private boolean simulationUpdated;
 	private ArrayList<String> simulationColors;
+	private CareTaker careTaker;
+	private ArrayList<Integer> queuesCount;
+	
 	
 	
 	public SimulationSystem(ArrayList<Machine> systemMachines, HashMap<Integer, BlockingQueue<Product>> systemQueues, int prodsCount) {
@@ -23,6 +27,7 @@ public class SimulationSystem implements Observer, SimulationSystemIF {
 		this.ready = true;
 		this.prodsCount = prodsCount;
 		this.simulationUpdated = false;
+		this.careTaker = new CareTaker();
 	}
 	
 	public void prepareSystem() {
@@ -33,6 +38,7 @@ public class SimulationSystem implements Observer, SimulationSystemIF {
 	
 	public void generateSystem() {
 		// ----------------------- Separator -----------------------
+		this.careTaker.add(new Momento(this.systemMachines, this.systemQueues));
 		for(Machine tempMach: systemMachines) {
 			Thread tempMachThread = new Thread(tempMach);
 			tempMachThread.start();
@@ -66,23 +72,21 @@ public class SimulationSystem implements Observer, SimulationSystemIF {
 	@Override
 	public synchronized void update() {
 		this.ready = false;
+		this.careTaker.add(new Momento(this.systemMachines, this.systemQueues));
+		this.careTaker.showLastMomento();
 		// ------------------- Separator -------------------
-		String systemStatus = "-----------------------------------------------\nCurrent System Status:\n";
-		systemStatus += "{\n";
 		this.simulationColors = new ArrayList<String>(systemMachines.size());
 		for(Machine M : this.systemMachines) {
-			systemStatus += M.getCurrentStatus();
 			if(M.getProductUnderConstruction() != null)
 				this.simulationColors.add(M.getProductUnderConstruction().getProdColor());
 			else
 				this.simulationColors.add("#808080");
 		}
-		for(int key : this.systemQueues.keySet()) {
-			systemStatus += "Q" + Integer.toString(key) + ": " + this.systemQueues.get(key).toString() + "\n";
-		}
-		systemStatus += "}";
+		this.queuesCount = new ArrayList<Integer>();
+		Iterator<Integer> i = this.systemQueues.keySet().iterator();
+		while(i.hasNext()) 
+			this.queuesCount.add(this.systemQueues.get(i.next()).size());
 		// ------------------- Separator -------------------
-		System.out.println(systemStatus);
 		this.ready = true;
 		notifyAll();
 		this.simulationUpdated = true;
@@ -130,7 +134,17 @@ public class SimulationSystem implements Observer, SimulationSystemIF {
 		this.simulationUpdated = simulationUpdated;
 	}
 	
-	
+	public void replay() {
+		if(this.isSystemConditionFlag()) {
+			System.out.println("Simulation is not finished yet.");
+			return;
+		}
+		this.careTaker.replay();
+	}
+
+	public ArrayList<Integer> getQueuesCount() {
+		return queuesCount;
+	}
 	
 	
 	

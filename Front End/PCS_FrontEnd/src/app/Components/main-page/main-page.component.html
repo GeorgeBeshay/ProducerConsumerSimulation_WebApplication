@@ -5,44 +5,33 @@
   <div class="options">
     <div>
       <div>
-        <p>Machine</p>
-        <button (click)="createMachine()">click</button>
+        <button (click)="createMachine()">Machine</button>
       </div>
       <div>
-        <p>Queue</p>
-        <button (click)="createQueue()">click</button>
+        <button (click)="createQueue()">Queue</button>
       </div>
       <div>
-        <p>Simulate</p>
-        <button (click)="smiulate()">click</button>
+        <button (click)="smiulate()">Simulate</button>
       </div>
       <div>
-        <p>Clear</p>
-        <button (click)="clear()">click</button>
+        <button (click)="clear()">Clear</button>
       </div>
       <div>
-        <p>Replay</p>
-        <button (click)="replay()">click</button>
+        <button (click)="replay()">Replay</button>
       </div>
       <div>
-        <p>Join</p>
-        <button (click)="createArrow()">click</button>
+        <button (click)="createArrow()">Join</button>
       </div>
       <div>
-        <p>Stop</p>
-        <button (click)="Stop()">click</button>
+        <button (click)="Stop()">Stop</button>
       </div>
-      <div>
-        <p>Number of products</p>
-        <input id="numberOfProducts" type="number">
+      <div class="prodsCount">
+        <p># Products:</p>
+        <input id="numberOfProducts" type="number" />
       </div>
-    </div>
-    <div class="status">
-      <p>Connection Status:</p>
-      <div>icon here</div>
     </div>
   </div>
-  <div class="board"id="holder">
+  <div class="board" id="holder">
     <div id="konva-holder"></div>
   </div>
   <div class="footer">

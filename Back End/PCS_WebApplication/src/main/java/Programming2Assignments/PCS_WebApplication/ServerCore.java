@@ -12,14 +12,12 @@ public class ServerCore {
 	
 	private static ServerCore serverCore;
 	private static SystemAdapter currentSystemAdapter;
-	private static Originator originator;
 	private static CareTaker careTaker;
 	
 	
 	private ServerCore() {}
 	
 	public boolean initializeSimulation(FrontSystem frontSystem, int prodsCount) {
-		originator = new Originator();
 		careTaker = new CareTaker();
 		currentSystemAdapter = new SystemAdapter(frontSystem, prodsCount); 
 		currentSystemAdapter.adapt();
@@ -39,6 +37,10 @@ public class ServerCore {
 		currentSystemAdapter.getBackSystem().setSimulationUpdated(false);
 		return currentSystemAdapter.getBackSystem().getSimulationColors();
 	}
+	
+	public ArrayList<Integer> queuesCount(){
+		return currentSystemAdapter.getBackSystem().getQueuesCount();
+	}
 
 	
 	public static ServerCore getServerCoreInstance() {
@@ -56,16 +58,6 @@ public class ServerCore {
 	
 	public void stopSimulation() {
 		currentSystemAdapter.getBackSystem().setSystemConditionFlag(false);
-	}
-	
-	public void saveStage(Object konvaObject) {
-		StageAndTime enhancedKonvaObject = new StageAndTime(konvaObject);
-		originator.setCurrentStage(enhancedKonvaObject);
-		careTaker.add(originator.save());
-	}
-	
-	public List<Memento> replay() {
-		return careTaker.getStageList();
 	}
 	
 }

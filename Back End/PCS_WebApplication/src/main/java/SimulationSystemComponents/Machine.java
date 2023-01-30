@@ -1,5 +1,7 @@
 package SimulationSystemComponents;
 
+import java.util.Iterator;
+import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 
@@ -22,9 +24,9 @@ public class Machine extends Subject implements Runnable{
 	// Machine Operating Status Flag
 	private boolean flag;
 
-		// Machine Operating Status Flag
-		private boolean finished;
-	
+	// Machine Operating Status Flag
+	private boolean finished;
+
 	// Machine Time to build a unit
 	private long buildingTime;
 	
@@ -36,6 +38,32 @@ public class Machine extends Subject implements Runnable{
 		this.inputQueue = inputQueue;
 		this.flag = true;
 		this.finished = false;
+	}
+	
+	public Machine(Machine machine) {
+		this.productUnderConstruction = machine.getProductUnderConstruction();
+		this.id = machine.id;
+		this.buildingTime = machine.buildingTime;
+		this.outputQueue = new ArrayBlockingQueue<Product>(1000);
+		this.inputQueue = new ArrayBlockingQueue<Product>(1000);
+		Iterator<Product> iterator = machine.outputQueue.iterator();
+		while(iterator.hasNext()) {
+			try {
+				this.outputQueue.put(iterator.next().clone());
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		iterator = machine.inputQueue.iterator();
+		while(iterator.hasNext()) {
+			try {
+				this.inputQueue.put(iterator.next().clone());
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		this.flag = machine.flag;
+		this.finished = machine.finished;
 	}
 	
 	public void outputProduct() {
@@ -50,7 +78,7 @@ public class Machine extends Subject implements Runnable{
 	public void inputProduct() {
 			try {
 				while(this.flag && this.productUnderConstruction == null) 
-					this.productUnderConstruction = this.inputQueue.poll(100, TimeUnit.MILLISECONDS);
+					this.productUnderConstruction = this.inputQueue.poll(200, TimeUnit.MILLISECONDS);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -100,6 +128,11 @@ public class Machine extends Subject implements Runnable{
 	public Product getProductUnderConstruction() {
 		return productUnderConstruction;
 	}
+	
+	public Machine clone() {
+		return new Machine(this);
+	}
+	
 	
 	
 
