@@ -47,7 +47,7 @@ public class SimulationSystem implements Observer, SimulationSystemIF {
 		// ----------------------- Separator -----------------------
 		BlockingQueue<Product> lastQueue = this.systemQueues.get(this.systemQueues.size() - 1);
 		while(this.systemConditionFlag) {
-			try {Thread.sleep(1000);} catch (InterruptedException e) {e.printStackTrace();}
+			try {Thread.sleep(100);} catch (InterruptedException e) {e.printStackTrace();}
 			this.checkSystemConditionFlag(lastQueue);
 		}
 		// ----------------------- Separator -----------------------

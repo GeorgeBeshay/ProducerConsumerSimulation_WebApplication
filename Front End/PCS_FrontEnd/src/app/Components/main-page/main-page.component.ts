@@ -26,6 +26,7 @@ export class MainPageComponent implements OnInit {
   private serverCaller!: ServerCallerService;
   private careTaker!: CareTakerService;
   private queues: Konva.Group[] = [];
+  private tempC = 0;
   constructor(private http: HttpClient) {
     this.serverCaller = new ServerCallerService(this.http);
   }
@@ -227,6 +228,7 @@ export class MainPageComponent implements OnInit {
       this.setQueuesCount(queuesCount);
       this.color(colors);
       await this.careTaker.saveStage(this.myStage);
+      console.log(this.myStage);
     }
   }
   // ---------------------- Separator ----------------------
