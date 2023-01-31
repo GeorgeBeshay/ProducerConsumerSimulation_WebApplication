@@ -26,7 +26,7 @@ export class MainPageComponent implements OnInit {
   private serverCaller!: ServerCallerService;
   private careTaker!: CareTakerService;
   private queues: Konva.Group[] = [];
-  private tempC = 0;
+  private replayFlag = false;
   constructor(private http: HttpClient) {
     this.serverCaller = new ServerCallerService(this.http);
   }
@@ -209,6 +209,7 @@ export class MainPageComponent implements OnInit {
     this.systemMachines.frontMachines = [];
     this.stop = false;
     this.queues = [];
+    this.replayFlag = false;
   }
   // ---------------------- Separator ----------------------
   async smiulate() {
@@ -223,33 +224,35 @@ export class MainPageComponent implements OnInit {
       let colors = await this.serverCaller.update();
       let queuesCount = await this.serverCaller.queuesCount();
       flag = await this.serverCaller.finished();
-      console.log(colors);
-      console.log(queuesCount);
-      this.setQueuesCount(queuesCount);
-      this.color(colors);
-      await this.careTaker.saveStage(this.myStage);
-      console.log(this.myStage);
+      if (!this.stop) {
+        this.setQueuesCount(queuesCount);
+        this.color(colors);
+        await this.careTaker.saveStage(this.myStage);
+      }
     }
   }
   // ---------------------- Separator ----------------------
   async Stop() {
     this.stop = true;
-    await this.serverCaller.stop();
+    if (!this.replayFlag) await this.serverCaller.stop();
+    else this.replayFlag = false;
   }
   // ---------------------- Separator ----------------------
   setQueuesCount(queuesCount: number[]) {
     let c = 0;
     for (let q of this.queues) {
       q.getChildren().pop();
-      q.add(new Konva.Text({
-      text: `Q${c}: ${queuesCount[c]}`,
-      fontSize: 18,
-      fontFamily: 'Calibri',
-      fill: '#000',
-      width: 70,
-      padding: 10,
-      align: 'center',
-    }))
+      q.add(
+        new Konva.Text({
+          text: `Q${c}: ${queuesCount[c]}`,
+          fontSize: 18,
+          fontFamily: 'Calibri',
+          fill: '#000',
+          width: 70,
+          padding: 10,
+          align: 'center',
+        })
+      );
       c++;
     }
   }
@@ -262,7 +265,12 @@ export class MainPageComponent implements OnInit {
     }
   }
   // ---------------------- Separator ----------------------
+  getReplayFlag(){
+    return this.replayFlag;
+  }
+  // ---------------------- Separator ----------------------
   async replay() {
-    this.careTaker.replaySimulation(this.myStage);
+    this.replayFlag = true;
+    this.careTaker.replaySimulation(this.myStage, this);
   }
 }
